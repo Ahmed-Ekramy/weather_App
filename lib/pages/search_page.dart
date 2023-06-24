@@ -1,8 +1,13 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:weather_app1/models/weathermodel.dart';
+
+import '../servecies/weather_services.dart';
 
 class Search_Page extends StatelessWidget {
 String? CityName;
+VoidCallback?updateui;
+Search_Page({ this.CityName, required this.updateui});
 
   @override
   Widget build(BuildContext context) {
@@ -17,8 +22,13 @@ String? CityName;
         padding:  EdgeInsets.all(8.0),
         child: Center(
           child: TextField(
-            onSubmitted: (data)  {
+            onSubmitted: (data)async  {
               CityName=data;
+              WeatherServices services=WeatherServices();
+              WeatherModel weather=await services.getWrather(CityName: CityName!);
+              weatherData=weather;
+              updateui!();
+            Navigator.pop(context);
             },
             decoration: InputDecoration(
                 suffixIcon: Icon(Icons.search),
@@ -33,3 +43,4 @@ String? CityName;
     );
   }
 }
+WeatherModel ?weatherData;
