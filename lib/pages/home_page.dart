@@ -1,7 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:weather_app1/models/weathermodel.dart';
 import 'package:weather_app1/pages/search_page.dart';
+
+import '../provider/provider.dart';
 
 class Home_Page extends StatefulWidget {
   @override
@@ -43,7 +46,7 @@ class _Home_PageState extends State<Home_Page> {
           )
         ],
       ),
-      body: weatherData == null
+      body:   Provider.of<WeatherProvider>(context,listen: true).weatherData == null
           ? Center(
               child: Text(
               "there is no weather, start search Now",

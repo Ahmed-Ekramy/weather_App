@@ -1,6 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:weather_app1/models/weathermodel.dart';
+import 'package:weather_app1/provider/provider.dart';
 
 import '../servecies/weather_services.dart';
 
@@ -26,8 +28,8 @@ Search_Page({ this.CityName, required this.updateui});
               CityName=data;
               WeatherServices services=WeatherServices();
               WeatherModel weather=await services.getWrather(CityName: CityName!);
-              weatherData=weather;
-              updateui!();
+          Provider.of<WeatherProvider>(context,listen: false).weatherData=weather;
+              // updateui!();
             Navigator.pop(context);
             },
             decoration: InputDecoration(
@@ -43,4 +45,3 @@ Search_Page({ this.CityName, required this.updateui});
     );
   }
 }
-WeatherModel ?weatherData;
