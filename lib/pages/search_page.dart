@@ -24,16 +24,29 @@ Search_Page({ this.CityName, required this.updateui});
         padding:  EdgeInsets.all(8.0),
         child: Center(
           child: TextField(
+            onChanged: (data){
+              CityName=data;
+            },
             onSubmitted: (data)async  {
               CityName=data;
               WeatherServices services=WeatherServices();
               WeatherModel weather=await services.getWrather(CityName: CityName!);
           Provider.of<WeatherProvider>(context,listen: false).weatherData=weather;
-              // updateui!();
+            Provider.of<WeatherProvider>(context,listen: false).CityName=CityName;
+
             Navigator.pop(context);
             },
             decoration: InputDecoration(
-                suffixIcon: Icon(Icons.search),
+                suffixIcon: GestureDetector(
+                    onTap: ()async{
+                      WeatherServices services=WeatherServices();
+                      WeatherModel weather=await services.getWrather(CityName: CityName!);
+                      Provider.of<WeatherProvider>(context,listen: false).weatherData=weather;
+                      Provider.of<WeatherProvider>(context,listen: false).CityName=CityName;
+
+                      Navigator.pop(context);
+                    },
+                    child: Icon(Icons.search)),
                 label: Text("search"),
                 hintText:"Enter City Name",
                 border: OutlineInputBorder(
